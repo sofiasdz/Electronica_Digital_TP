@@ -120,10 +120,13 @@ El objetivo de este proyecto es mostrar como una plaqueta realizada con ESP32 y 
 
 #### Configuración mediante el archivo _mqtt_def.h_
 
-  **C1 -> List of topics and actions**: En este arreglo de estructuras, se encuentran los pares formados por _tópico_ y _acción_ que se pueden ofrecer para suscribirse en el _broker_. Solo hace falta configurar en este item si se agregan tópicos adicionales.
-  **C2 -> Subscription lists**: aquí aparece la lista de suscripciones que se desea realizar; obsérvese que, para generar el _string_ de suscripción, se comienza con _'MAIN_NAME/'SUB_NAME'/_ y se continúa con el sub-string indicado en cada ítem de esta lista; obviamente, los caracteres reservados **#** y **+** son los consasbidos comodines de MQTT (En caso de duda, ver la función _init_subscriptions_ en el archivo _mqtt.cpp_). Notar que, con la finalidad de poder probar cómodamente otras suscricpiones posibles y comprender como funciona MQTT, se ha pensado preparar hasta 3 juegos de suscripciones que se pueden elegir desde _platformio.ini_ mediante el símbolo _SUB_LIST_.
-  **C3 -> Macros for id strings**: Aqui se usan las definiciones que estan en _platformio.ini_ de los símbolos _MAIN_NAME_, _SUB_NAME_ y, además, el número de placa o equipo en cuestión para generar los _strings_ de identificación para el _broker_, tanto sea para el _log_ en el _broker_, como para la publicación de un tópico o para la suscripción.
-  **C4 -> Broker selection**: También para comprender que el _broker_ MQTT puede estar ubicado en distintos lugares, existen 3 selecciones del _broker_ en particular a usar, la cual se puede seleccionar mediante el símbolo _MQTT_ que se define en _platformio.ini_. Aquí, en realidad, se debe colocar la forma de acceso y validación de cada uno de los 3 _brokers_ a usar.
+  **C1 -> List of topics and actions**: En este arreglo de estructuras, se encuentran los pares formados por _tópico_ y _acción_ que se pueden ofrecer para suscribirse en el _broker_. Solo hace falta configurar en este item si se agregan tópicos adicionales.  
+
+  **C2 -> Subscription lists**: aquí aparece la lista de suscripciones que se desea realizar; obsérvese que, para generar el _string_ de suscripción, se comienza con _'MAIN_NAME/'SUB_NAME'/_ y se continúa con el sub-string indicado en cada ítem de esta lista; obviamente, los caracteres reservados **#** y **+** son los consasbidos comodines de MQTT (En caso de duda, ver la función _init_subscriptions_ en el archivo _mqtt.cpp_). Notar que, con la finalidad de poder probar cómodamente otras suscricpiones posibles y comprender como funciona MQTT, se ha pensado preparar hasta 3 juegos de suscripciones que se pueden elegir desde _platformio.ini_ mediante el símbolo _SUB_LIST_.  
+
+  **C3 -> Macros for id strings**: Aqui se usan las definiciones que estan en _platformio.ini_ de los símbolos _MAIN_NAME_, _SUB_NAME_ y, además, el número de placa o equipo en cuestión para generar los _strings_ de identificación para el _broker_, tanto sea para el _log_ en el _broker_, como para la publicación de un tópico o para la suscripción.  
+
+  **C4 -> Broker selection**: También para comprender que el _broker_ MQTT puede estar ubicado en distintos lugares, existen 3 selecciones del _broker_ en particular a usar, la cual se puede seleccionar mediante el símbolo _MQTT_ que se define en _platformio.ini_. Aquí, en realidad, se debe colocar la forma de acceso y validación de cada uno de los 3 _brokers_ a usar.  
 
 #### Configuración mediante _platformio.ini_
 
