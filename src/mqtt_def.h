@@ -34,6 +34,11 @@ static const topic_t topics[] =
     {   "sy", set_yel       },
     {   "sg", set_grn       },
     {   "si", set_int       },
+    {   "Hola de gonza", toggle_grn         },
+    {   "button", set_int       },
+    {   "prender",   set_int   },
+    {   "apagar",   set_int  },
+
     {   NULL }
 };
 
@@ -87,7 +92,7 @@ static const char *subs[] =
     #define BROKER_USER ""
     #define BROKER_PASS ""
 #elif (MQTT==1)
-    #define BROKER_NAME "44.218.56.34"          //  Mosquitto outside local network
+    #define BROKER_NAME "broker.hivemq.com"          //  Mosquitto outside local network
     #define BROKER_PORT 1883
     #define BROKER_USER ""
     #define BROKER_PASS ""
