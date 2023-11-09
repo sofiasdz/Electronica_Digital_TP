@@ -1,9 +1,4 @@
-/*
- *  Project 91-vending 
- *  Austral - EAM
- *
- *      File main.cpp
- */
+
 
 #include <Arduino.h>
 
@@ -12,6 +7,9 @@
 #include "matrix.h"
 #include "stock.h"
 #include "vdisplay.h"
+#include "wifi_ruts.h"
+#include "mqtt.h"
+#include "hw.h"
 
 #define FILL    99
 
@@ -51,6 +49,12 @@ setup(void)
     init_matrix();
     init_stock();
     init_vdisplay();
+    int board;
+    connect_wifi();
+    init_hw();
+    board = get_board_num();
+    printf("Board = %d\n", board);
+    init_mqtt(board);
 
 #if LED_TEST == 1
     led_test();
@@ -63,6 +67,9 @@ setup(void)
 void
 loop(void)
 {
+
+       
+    test_mqtt();                       //  Test news from broker
     String in;
     int product_no,status;
 
@@ -94,8 +101,10 @@ loop(void)
         printf("\n\tSelected product_no = %d\n", product_no);
         if( stock_state(product_no) > 0 )
         {
+
             Serial.printf("Stock remaining after delibering = %d\n", change_stock(product_no,-1) );
             Serial.printf( "Product number %d delivered\n", product_no );
+            do_publish("Hola de gonza","button");
         }
         else
             Serial.printf("No product %d remain in stock\n", product_no);
