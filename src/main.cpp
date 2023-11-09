@@ -11,9 +11,13 @@
 #include "mqtt.h"
 #include "hw.h"
 
+#include <iostream>
+
 #define FILL    99
 
 #if LED_TEST == 1
+
+
 
 static
 void
@@ -39,6 +43,9 @@ led_test(void)
     }
 }
 #endif
+
+static const char *lista[] = {"Oreo", "Chocolinas", "Traviatta", "Rumba", "Mellizas", "Amor", "Tentacion", "Criollitas"};
+
 
 void
 setup(void)
@@ -78,15 +85,35 @@ loop(void)
     {
         Serial.printf("=========================\n");
         refresh_vdisplay();
+         // Lista de productos
+        const char *lista[] = {"Oreo", "Chocolinas", "Traviatta", "Rumba", "Mellizas", "Amor", "Tentacion", "Criollitas"};
+
+         // Tamaño de la lista
+        const int tamanoLista = sizeof(lista) / sizeof(lista[0]);
+
+        // Mostrar la lista de productos con sus números
+        std::cout << "Lista de productos:" << std::endl;
+        for (int i = 0; i < tamanoLista; ++i) {
+            std::cout << i + 1 << ". " << lista[i] << std::endl;
+         }
+
         Serial.printf("Input product number (%d to %d)....", MIN_PRODUCT, MAX_PRODUCT);
         Serial.flush();
         while(!Serial.available())
         ;
         in = Serial.readStringUntil('\n');
         product_no = atoi(in.c_str()); 
-        Serial.printf("Product selected = %d\n", product_no);
-        if( product_no == FILL )
+        Serial.printf("Product selected = %d\n",  lista[product_no-1]);
+        if( product_no == FILL ){
             Serial.printf("Refilling stock\n");
+            std::string topic = "stock/" + std::string(lista[product_no - 1]);
+            int stock =8;
+            const char *topic_cstr = topic.c_str();
+            std::string str_stock = std::to_string(stock);
+            const char *cstr_stock = str_stock.c_str();
+            do_publish(topic_cstr,cstr_stock);
+        }
+
         else if( status = (product_no < MIN_PRODUCT || product_no > MAX_PRODUCT) )
             Serial.printf("\nBad product number %d Redo...\n", product_no );
     } while(status);
@@ -95,19 +122,39 @@ loop(void)
     {
         fill_stock();
         Serial.printf("stock updated\n");
-        refresh_vdisplay();
+         refresh_vdisplay();
+         //relleno todos los productos
+    for (int i = 1; i <= 8; ++i) {
+            std::cout << "Número: " << i << std::endl;
+
+            std::string topic = "stock/" + std::string( lista[product_no-1]);
+            int stock =8;
+            const char *topic_cstr = topic.c_str();
+            std::string str_stock = std::to_string(stock);
+            const char *cstr_stock = str_stock.c_str();
+            do_publish(topic_cstr,cstr_stock);
+        }
+
+       
     } else
     {
-        printf("\n\tSelected product_no = %d\n", product_no);
+        printf("\n\tSelected product_no = %d\n", lista[product_no-1]);
         if( stock_state(product_no) > 0 )
         {
 
             Serial.printf("Stock remaining after delibering = %d\n", change_stock(product_no,-1) );
-            Serial.printf( "Product number %d delivered\n", product_no );
-            do_publish("Hola de gonza","button");
+            Serial.printf( "Product number %d delivered\n",  lista[product_no-1] );
+            std::string topic = "stock/" + std::string( lista[product_no-1]);
+            int stock =stock_state(product_no);
+            const char *topic_cstr = topic.c_str();
+            std::string str_stock = std::to_string(stock);
+            const char *cstr_stock = str_stock.c_str();
+            do_publish(topic_cstr,cstr_stock);
         }
         else
-            Serial.printf("No product %d remain in stock\n", product_no);
+            Serial.printf("No product %d remain in stock\n",  lista[product_no-1]);
+
+          
         refresh_vdisplay();
     }
 }
