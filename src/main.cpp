@@ -45,7 +45,7 @@ led_test(void)
 #endif
 
 static const char *lista[] = {"Oreo", "Chocolinas", "Traviatta", "Rumba", "Mellizas", "Amor", "Tentacion", "Criollitas"};
-
+static const std::string machine_no = "1";
 
 void
 setup(void)
@@ -62,6 +62,8 @@ setup(void)
     board = get_board_num();
     printf("Board = %d\n", board);
     init_mqtt(board);
+    // cuando hace el setup la maquina hago un publish a machine/conected/ message:”machineId:1”
+
 
 #if LED_TEST == 1
     led_test();
@@ -79,7 +81,6 @@ loop(void)
     test_mqtt();                       //  Test news from broker
     String in;
     int product_no,status;
-
     status = 0;
     do
     {
@@ -106,7 +107,9 @@ loop(void)
         Serial.printf("Product selected = %d\n",  lista[product_no-1]);
         if( product_no == FILL ){
             Serial.printf("Refilling stock\n");
-            std::string topic = "stock/" + std::string(lista[product_no - 1]);
+            
+            // tengo que hacer algo cuando hago un refill de productos??
+            std::string topic = "stock/machineId:" + machine_no+",ProductId: "+ std::string(lista[product_no - 1]);
             int stock =8;
             const char *topic_cstr = topic.c_str();
             std::string str_stock = std::to_string(stock);
@@ -138,13 +141,14 @@ loop(void)
        
     } else
     {
-        printf("\n\tSelected product_no = %d\n", lista[product_no-1]);
+        printf("\n\tSelected product_no = %s\n", lista[product_no-1]);
         if( stock_state(product_no) > 0 )
         {
-
+               //cuando compra alguien algo hago un publish 
+            //que dice soldProducts/ message:” machieneId:1, productId:1
             Serial.printf("Stock remaining after delibering = %d\n", change_stock(product_no,-1) );
-            Serial.printf( "Product number %d delivered\n",  lista[product_no-1] );
-            std::string topic = "stock/" + std::string( lista[product_no-1]);
+            Serial.printf( "Product number %d delivered\n",  std::string(lista[product_no-1] ));
+            std::string topic = "soldProducts/machineId:" + machine_no+",ProductId: "+ std::to_string(product_no - 1);
             int stock =stock_state(product_no);
             const char *topic_cstr = topic.c_str();
             std::string str_stock = std::to_string(stock);
