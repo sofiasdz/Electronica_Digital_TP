@@ -96,18 +96,20 @@ loop(void)
         const int tamanoLista = sizeof(lista) / sizeof(lista[0]);
 
         // Mostrar la lista de productos con sus números
-        std::cout << "Lista de productos:" << std::endl;
+        std::cout << "Vending Machine Simulation" << std::endl;
+        Serial.printf("=========================\n");
+        std::cout << "Cookies Available:" << std::endl;
         for (int i = 0; i < tamanoLista; ++i) {
             std::cout << i + 1 << ". " << lista[i] << std::endl;
          }
 
-        Serial.printf("Input product number (%d to %d)....", MIN_PRODUCT, MAX_PRODUCT);
+        Serial.printf("Input product number to select (%d to %d)....", MIN_PRODUCT, MAX_PRODUCT);
         Serial.flush();
         while(!Serial.available())
         ;
         in = Serial.readStringUntil('\n');
         product_no = atoi(in.c_str()); 
-        Serial.printf("Product selected = %d\n",  lista[product_no-1]);
+        Serial.printf("Product selected = %d\n", product_no);
         if( product_no == FILL ){
             Serial.printf("Refilling stock\n");
             
@@ -144,13 +146,13 @@ loop(void)
        
     } else
     {
-        printf("\n\tSelected product_no = %s\n", lista[product_no-1]);
+        printf("\n\tSelected cookie = %s\n", lista[product_no-1]);
         if( stock_state(product_no) > 0 )
         {
             //cuando compra alguien algo hago un publish 
             //que dice soldProducts/ message:” machieneId:1, productId:1
-            Serial.printf("Stock remaining after delibering = %d\n", change_stock(product_no,-1) );
-            Serial.printf( "Product number %d delivered\n",  std::string(lista[product_no-1] ));
+            Serial.printf("Stock remaining after delivering = %d\n", change_stock(product_no,-1) );
+            Serial.printf( "Product number %d delivered\n",  product_no );
             std::string topic = "soldProducts/";
             std::string message = "machineId:" + machine_no +",ProductId: "+ std::to_string((product_no));
             int stock =stock_state(product_no);
@@ -159,7 +161,7 @@ loop(void)
             do_publish(topic_cstr,message_cstr);
         }
         else
-            Serial.printf("No product %d remain in stock\n",  lista[product_no-1]);
+            Serial.printf("No product %d remain in stock\n",  product_no);
 
           
         refresh_vdisplay();
