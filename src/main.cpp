@@ -63,7 +63,10 @@ setup(void)
     printf("Board = %d\n", board);
     init_mqtt(board);
     // cuando hace el setup la maquina hago un publish a machine/conected/ message:”machineId:1”
-
+    std::string topic = "machine/connected/";
+    const char *topic_cstr = topic.c_str();
+    const char *message_cstr = machine_no.c_str();
+    do_publish(topic_cstr,message_cstr);
 
 #if LED_TEST == 1
     led_test();
@@ -144,16 +147,16 @@ loop(void)
         printf("\n\tSelected product_no = %s\n", lista[product_no-1]);
         if( stock_state(product_no) > 0 )
         {
-               //cuando compra alguien algo hago un publish 
+            //cuando compra alguien algo hago un publish 
             //que dice soldProducts/ message:” machieneId:1, productId:1
             Serial.printf("Stock remaining after delibering = %d\n", change_stock(product_no,-1) );
             Serial.printf( "Product number %d delivered\n",  std::string(lista[product_no-1] ));
-            std::string topic = "soldProducts/machineId:" + machine_no+",ProductId: "+ std::to_string(product_no - 1);
+            std::string topic = "soldProducts/";
+            std::string message = "machineId:" + machine_no +",ProductId: "+ std::to_string((product_no));
             int stock =stock_state(product_no);
             const char *topic_cstr = topic.c_str();
-            std::string str_stock = std::to_string(stock);
-            const char *cstr_stock = str_stock.c_str();
-            do_publish(topic_cstr,cstr_stock);
+            const char *message_cstr = message.c_str();
+            do_publish(topic_cstr,message_cstr);
         }
         else
             Serial.printf("No product %d remain in stock\n",  lista[product_no-1]);
