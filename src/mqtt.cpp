@@ -13,6 +13,8 @@
 #include <Arduino.h>
 #include <PubSubClient.h>
 #include <WiFi.h>
+#include <WiFiClientSecure.h>
+
 
 /*
  *  Project includes
@@ -26,7 +28,7 @@
  *  Objects instantiations
  */
 
-WiFiClient espClient;
+WiFiClientSecure espClient;
 PubSubClient client(espClient);
 
 /*
@@ -37,6 +39,33 @@ static char client_id[100];
 static char tp_string[100];
 static int board_num;
 static char sub_header[50];
+
+
+// Certificado de la CA
+const char* ca_cert = \
+"-----BEGIN CERTIFICATE-----\n
+MIIDHzCCAgcCFEoiQ99ulAqBFaCVpSRilkqpB5B1MA0GCSqGSIb3DQEBCwUAMEwx
+CzAJBgNVBAYTAkFSMRUwEwYDVQQIDAxCdWVub3MgQWlyZXMxFTATBgNVBAoMDEV4
+cGVuZGV4IExMQzEPMA0GA1UEAwwGU2VydmVyMB4XDTIzMTEyNjAxNTg0NFoXDTI0
+MTEyNTAxNTg0NFowTDELMAkGA1UEBhMCQVIxFTATBgNVBAgMDEJ1ZW5vcyBBaXJl
+czEVMBMGA1UECgwMRXhwZW5kZXggTExDMQ8wDQYDVQQDDAZTZXJ2ZXIwggEiMA0G
+CSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC/b8a9NayHApQzBx3rz6D8EJUcJyo5
+jXlR526a4wWFyO7DjtLHEKJ9j+WrFJqcCHs3zxDkaCeTflgxaE1Rloc7tJNRJrCk
+wji55dEmPKNwv7gmq3zeDjnvs8N0MDddYA+XXOvWRYLFeGV/40CkrP89nfi+pZyO
+kPVZ8YfIhNRYx1Y9Hb32bT8wPbpumBFkFWt5mk1L1WiGn5kdZn3b0NPOxUXKlxhe
+A8kPw9OrfWSVD1aaWDowzjbRsUf9Z/ejF8559ZlpG5lgt3qqA5v85OT8zoMaYUAy
+jnE2nEkQurWnoOVJT1JmjY6yztfKZwPf5jDMU12xMjfM8Gxtmy4s2mcZAgMBAAEw
+DQYJKoZIhvcNAQELBQADggEBAIYcMShsAvkw5+ZxfAWOSo3XBScrZbuYLvTyEJjf
+xABjuRIbmXsuK0cFIBO9E+oHPmJ/YhdvPlMcAvGYtWzUwK5VBxgIaJK308FMz0XO
+hGhrZbB2Zq+xa4/dTzDDYLu7jyEGODG9QZxxgKy2l7HX3S8gXAFMurY52j2zWv8e
+t3fCZXhXpBGf3DC7/n26RP0OotQM5kbFlSQILmDPA/MdYiQJ7xDCbbStd2W8KtDv
+Qww6lJIDI8IyY85cGCmXE44Fadk3F+AWxGLayHNboH5QGLxvfrO8r32SNEZbnGTv
+tcGBW45OfgivnFP3c4MF3Jmzzp4Pd8sK1a2H14FviRinSWA=\n
+-----END CERTIFICATE-----";
+
+// Configura el certificado de la CA
+espClient.setCACert(ca_cert);
+
 
 /*
  *  Private constants
