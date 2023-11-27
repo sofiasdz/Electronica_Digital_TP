@@ -192,6 +192,7 @@ init_mqtt(int num)
 
     client_connect();
     init_subscriptions();
+    
 }
 
 /*

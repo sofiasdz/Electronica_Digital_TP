@@ -68,6 +68,7 @@ setup(void)
     const char *message_cstr = machine_no.c_str();
     do_publish(topic_cstr,message_cstr);
 
+
 #if LED_TEST == 1
     led_test();
 #elif MATRIX_TEST == 1

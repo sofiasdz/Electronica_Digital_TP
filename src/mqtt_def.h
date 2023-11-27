@@ -52,7 +52,15 @@ static const topic_t topics[] =
 static const char *subs[] =
 {
 #if (SUB_LIST==0)
-    "#",
+    "delete/product",
+    "product/add",
+    "product/adjustPrice",
+    "machine/delete/1",
+    "machine/refill/1",
+    "machine/connected/1",
+    "machine/eliminate/1",
+    "machine/ready/1",
+
 #elif (SUB_LIST==1)
     "+/ti",
     "01/tr",
