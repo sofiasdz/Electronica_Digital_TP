@@ -1,7 +1,7 @@
 #define SECRET
 #define THINGNAME "Electronica"
 
-const char IOT_ENDPOINT[] = "ec2-3-84-144-18.compute-1.amazonaws.com";           
+const char IOT_ENDPOINT[] = "34.200.138.102";           
  
 
 static const char CERT_CA[] = R"EOF(

@@ -9,8 +9,8 @@
  */
 
 #if (WIFI==0)                   //  Home settings
-    #define MY_SSID "Fibertel WiFi582 2.4GHz"
-    #define MY_PASS "0042325659"
+    #define MY_SSID "LRM-HOME"
+    #define MY_PASS "pass12345"
 #elif (WIFI==1)                 //  University settings
     #define MY_SSID "UA-Alumnos"
     #define MY_PASS "41umn05WLC"
