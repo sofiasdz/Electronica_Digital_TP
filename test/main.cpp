@@ -14,10 +14,10 @@
 
 #if MQTT == 1
 
-const char *mqttServer =    R_NAME;
-const int mqttPort =        R_PORT;
-const char *mqttUser =      R_USER;
-const char *mqttPassword =  R_PASS;
+const char *mqttServer =    "34.200.138.102";
+const int mqttPort =        1883;
+const char *mqttUser =      "";
+const char *mqttPassword =  "";
 
 #else
 
