@@ -100,7 +100,7 @@ static const char *subs[] =
     #define BROKER_USER ""
     #define BROKER_PASS ""
 #elif (MQTT==1)
-    #define BROKER_NAME "ec2-3-84-144-18.compute-1.amazonaws.com"          //  Mosquitto outside local network
+    #define BROKER_NAME "34.200.138.102"          //  Mosquitto outside local network
     #define BROKER_PORT 1883
     #define BROKER_USER ""
     #define BROKER_PASS ""
