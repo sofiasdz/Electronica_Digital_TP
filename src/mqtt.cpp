@@ -27,7 +27,8 @@
  *  Objects instantiations
  */
 
-WiFiClientSecure espClient;
+WiFiClient espClient;
+//WiFiClientSecure espClient;
 PubSubClient client(espClient);
 
 /*
@@ -91,7 +92,7 @@ client_connect(void)
     Serial.printf("server = %s\n",mqttServer);
 
     //Configura el certificado de la CA
-    espClient.setCACert(CERT_CA);
+    //espClient.setCACert(CERT_CA);
 
     client.setServer(mqttServer, mqttPort);
     client.setCallback(callback);
