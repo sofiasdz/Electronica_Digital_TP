@@ -43,7 +43,7 @@ static char sub_header[50];
 
 
 // Certificado de la CA
-const char* ca_cert = R"(
+static const char CERT_CA[] = R"EOF(
 -----BEGIN CERTIFICATE-----
 MIIDHzCCAgcCFEoiQ99ulAqBFaCVpSRilkqpB5B1MA0GCSqGSIb3DQEBCwUAMEwx
 CzAJBgNVBAYTAkFSMRUwEwYDVQQIDAxCdWVub3MgQWlyZXMxFTATBgNVBAoMDEV4
@@ -61,11 +61,9 @@ xABjuRIbmXsuK0cFIBO9E+oHPmJ/YhdvPlMcAvGYtWzUwK5VBxgIaJK308FMz0XO
 hGhrZbB2Zq+xa4/dTzDDYLu7jyEGODG9QZxxgKy2l7HX3S8gXAFMurY52j2zWv8e
 t3fCZXhXpBGf3DC7/n26RP0OotQM5kbFlSQILmDPA/MdYiQJ7xDCbbStd2W8KtDv
 Qww6lJIDI8IyY85cGCmXE44Fadk3F+AWxGLayHNboH5QGLxvfrO8r32SNEZbnGTv
-tcGBW45OfgivnFP3c4MF3Jmzzp4Pd8sK1a2H14FviRinSWA=
------END CERTIFICATE-----)";
-
-
-
+tcGBW45OfgivnFP3c4MF3Jmzzp4Pd8sK1a2H14FviRinSWA
+-----END CERTIFICATE----
+)EOF";
 
 
 /*
@@ -120,7 +118,7 @@ client_connect(void)
     Serial.printf("server = %s\n",mqttServer);
 
     //Configura el certificado de la CA
-    espClient.setCACert(ca_cert);
+    espClient.setCACert(CERT_CA);
 
     client.setServer(mqttServer, mqttPort);
     client.setCallback(callback);
