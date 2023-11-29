@@ -4,7 +4,8 @@
 
 #define MIN_PRODUCT 1
 #define MAX_PRODUCT 8
-
+#ifndef STOCK_H
+#define STOCK_H
 /*
  *  init_stock
  */
@@ -38,3 +39,4 @@ int change_stock(int pr_no, int add);
 
 void fill_stock(void);
 
+#endif  // STOCK_H

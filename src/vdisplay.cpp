@@ -28,7 +28,8 @@ refresh_vdisplay(void)
 
     for( pr_no = 0; pr_no < 8; ++pr_no )
     {
-        stock = stock_state(pr_no+1);
+        //stock = stock_state(pr_no+1);
+        stock = 2;
         set_row(pr_no, pattern[stock]);
     }
 }
