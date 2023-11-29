@@ -10,6 +10,9 @@
 #include "matrix.h"
 #include "vdisplay.h"
 #include "stock.h"
+#include "machine.h"
+
+extern Machine vendingMachine;
 
 static const uchar pattern[] =
 {
@@ -21,19 +24,25 @@ init_vdisplay(void)
 {
 }
 
-void
-refresh_vdisplay(void)
+void refresh_vdisplay()
 {
-    int pr_no, stock;
-
-    for( pr_no = 0; pr_no < 8; ++pr_no )
+    for (int pr_no = 0; pr_no < 8; ++pr_no)
     {
-        //stock = stock_state(pr_no+1);
-        stock = 2;
-        set_row(pr_no, pattern[stock]);
+        // Check if pr_no is a valid index in the products array
+        if (pr_no < vendingMachine.products.size())
+        {
+            int stock = vendingMachine.products[pr_no].quantity;
+            set_row(pr_no, pattern[stock]);
+        }
+        else
+        {
+            // Handle the case where pr_no is out of bounds
+            // This could be an error or default value based on your requirements
+            int stock = 0; // or any default value
+            set_row(pr_no, pattern[stock]);
+        }
     }
 }
-
 
 
 

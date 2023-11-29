@@ -33,6 +33,8 @@ public:
 
     void updateFromJSON(const std::string& jsonString);
 
+    std::vector<std::string> getProductNames() const;
+
 
     void update(const Machine& otherMachine);
 
@@ -46,7 +48,6 @@ public:
 
     void adjustPrice(const std::string& msg);
     
-    std::vector<std::string> getProductNames() const;
 };
 
 #endif  // MACHINE_H
