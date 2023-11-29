@@ -17,4 +17,9 @@ void set_yel(char *msg);
 void set_grn(char *msg);
 void set_int(char *msg);
 
-
+void updateMachine(char *msg);
+void workingInMachine(char *msg);
+void readyMachine(char *msg);
+void deleteMachine(char *msg);
+void productDelete(char *msg);
+void adjustPrice(char *msg);

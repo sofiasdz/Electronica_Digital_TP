@@ -1,5 +1,8 @@
 #ifndef __MQTT_DEF_H__
 #define __MQTT_DEF_H__
+#include "machine.h"
+
+extern Machine vendingMachine;
 
 /*
  *  mqtt_def.h
@@ -38,6 +41,14 @@ static const topic_t topics[] =
     {   "button", set_int       },
     {   "prender",   set_int   },
     {   "apagar",   set_int  },
+    {   ("machine/refill/" + std::to_string(vendingMachine.customId)).c_str(), updateMachine },
+    {   "product/adjustPrice" , adjustPrice},
+    {   "product/delete" , productDelete},
+    {   ("machine/delete/" + std::to_string(vendingMachine.customId)).c_str(), deleteMachine},
+    {   ("machine/working/" + std::to_string(vendingMachine.customId)).c_str(), workingInMachine},
+    {   ("machine/ready/" + std::to_string(vendingMachine.customId)).c_str(), readyMachine},
+    {   ("machine/eliminate/" + std::to_string(vendingMachine.customId)).c_str(), productDelete},
+    {   ("machine/Connected/" + std::to_string(vendingMachine.customId)).c_str(), updateMachine},
 
     {   NULL }
 };
@@ -52,14 +63,15 @@ static const topic_t topics[] =
 static const char *subs[] =
 {
 #if (SUB_LIST==0)
-    "delete/product",
-    "product/add",
-    "product/adjustPrice",
-    "machine/delete/1",
-    "machine/refill/1",
-    "machine/connected/1",
+    ("machine/eliminate/" + std::to_string(vendingMachine.customId)).c_str(),
+    ("machine/ready/" + std::to_string(vendingMachine.customId)).c_str(),
+    ("machine/working/" + std::to_string(vendingMachine.customId)).c_str(),
+    ("machine/working/" + std::to_string(vendingMachine.customId)).c_str(),
+    ("machine/delete/" + std::to_string(vendingMachine.customId)).c_str(),
+    ("machine/refill/" + std::to_string(vendingMachine.customId)).c_str(),
     "machine/eliminate/1",
     "machine/ready/1",
+    ("machine/Connected/" + std::to_string(vendingMachine.customId)).c_str(),
 
 #elif (SUB_LIST==1)
     "+/ti",

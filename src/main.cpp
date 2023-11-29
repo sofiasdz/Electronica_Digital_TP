@@ -63,7 +63,7 @@ setup(void)
     printf("Board = %d\n", board);
     init_mqtt(board);
     // cuando hace el setup la maquina hago un publish a machine/conected/ message:”machineId:1”
-    std::string topic = "machine/connected/";
+    std::string topic = "machine/Connected";
     const char *topic_cstr = topic.c_str();
     const char *message_cstr = std::to_string(vendingMachine.customId).c_str();
     do_publish(topic_cstr,message_cstr);

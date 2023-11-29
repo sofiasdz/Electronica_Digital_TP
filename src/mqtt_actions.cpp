@@ -10,6 +10,9 @@
 
 #include "mqtt_actions.h"       //  Prototypes of functions whose code are here
 #include "hw_actions.h"         //  Prototypes of functions called from here
+#include "machine.h"
+
+extern Machine vendingMachine;
 
 void
 clear_leds( char *msg )
@@ -61,5 +64,32 @@ void set_int(char *msg)
     set_led_int( msg[0] != '0' );
 }
 
+void updateMachine(char *msg)
+{
+    vendingMachine.initializeFromJSON(msg);
+}
 
+void workingInMachine(char *msg)
+{
+    vendingMachine.workingInMachine();
+}
 
+void readyMachine(char *msg)
+{
+    vendingMachine.readyMachine();
+}
+
+void deleteMachine(char *msg)
+{
+    vendingMachine.deleteMachine();
+}
+
+void productDelete(char *msg)
+{
+    vendingMachine.productDelete(msg);
+}
+
+void adjustPrice(char *msg)
+{
+    vendingMachine.adjustPrice(msg);
+}

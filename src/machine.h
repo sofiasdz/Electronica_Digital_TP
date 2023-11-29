@@ -31,8 +31,20 @@ public:
     // Method to initialize a machine from JSON string
     void initializeFromJSON(const std::string& jsonString);
 
+    void updateFromJSON(const std::string& jsonString);
+
+
     void update(const Machine& otherMachine);
 
+    void workingInMachine();
+
+    void readyMachine();
+
+    void deleteMachine();
+
+    void productDelete(const std::string& msg);
+
+    void adjustPrice(const std::string& msg);
     std::vector<std::string> getProductNames() const;
 };
 
