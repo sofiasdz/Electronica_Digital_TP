@@ -107,7 +107,9 @@ loop(void)
          // Lista de productos
          //Traerlas desde la machine
          //getProductNames(vendingMachine); creado en machine.cpp
-        const char *lista[] = {"Oreo", "Chocolinas", "Traviatta", "Rumba", "Mellizas", "Amor", "Tentacion", "Criollitas"};
+        std::vector<std::string> productNames = vendingMachine.getProductNames();
+
+        const char* lista[productNames.size()];
 
          // Tamaño de la lista
         const int tamanoLista = sizeof(lista) / sizeof(lista[0]);
@@ -116,9 +118,9 @@ loop(void)
         std::cout << "Vending Machine Simulation" << std::endl;
         Serial.printf("=========================\n");
         std::cout << "Cookies Available:" << std::endl;
-        for (int i = 0; i < tamanoLista; ++i) {
+        for (size_t i = 0; i < productNames.size(); ++i) {
             std::cout << i + 1 << ". " << lista[i] << std::endl;
-         }
+        }
 
         Serial.printf("Input product number to select (%d to %d)....", MIN_PRODUCT, MAX_PRODUCT);
         Serial.flush();
@@ -128,15 +130,7 @@ loop(void)
         product_no = atoi(in.c_str()); 
         Serial.printf("Product selected = %d\n", product_no);
         if( product_no == FILL ){
-            Serial.printf("Refilling stock\n");
             
-            // tengo que hacer algo cuando hago un refill de productos??
-            std::string topic = "stock/machineId:" + std::to_string(vendingMachine.customId) +",ProductId: "+ std::string(lista[product_no - 1]);
-            int stock =8;
-            const char *topic_cstr = topic.c_str();
-            std::string str_stock = std::to_string(stock);
-            const char *cstr_stock = str_stock.c_str();
-            do_publish(topic_cstr,cstr_stock);
         }
 
         else if( status = (product_no < MIN_PRODUCT || product_no > MAX_PRODUCT) )
@@ -148,21 +142,7 @@ loop(void)
         //fill_stock();
         Serial.printf("stock updated\n");
          refresh_vdisplay();
-         //relleno todos los productos
-    for (int i = 1; i <= 8; ++i) {
-            std::cout << "Número: " << i << std::endl;
-
-            std::string topic = "stock/" + std::string( lista[product_no-1]);
-            int stock =8;
-            const char *topic_cstr = topic.c_str();
-            std::string str_stock = std::to_string(stock);
-            const char *cstr_stock = str_stock.c_str();
-            do_publish(topic_cstr,cstr_stock);
-        }
-
-       
-    } else
-    {
+    } else {
         printf("\n\tSelected cookie = %s\n", lista[product_no-1]);
     }
 
