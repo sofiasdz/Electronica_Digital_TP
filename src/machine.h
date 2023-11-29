@@ -31,6 +31,9 @@ public:
     // Method to initialize a machine from JSON string
     void initializeFromJSON(const std::string& jsonString);
 
+    void updateFromJSON(const std::string& jsonString);
+
+
     void update(const Machine& otherMachine);
 
 };

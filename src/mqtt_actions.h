@@ -17,4 +17,6 @@ void set_yel(char *msg);
 void set_grn(char *msg);
 void set_int(char *msg);
 
+void updateMachine(char *msg);
+
 
