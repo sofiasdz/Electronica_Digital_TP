@@ -1,6 +1,7 @@
 
 
 #include <Arduino.h>
+#include <ArduinoJson.h>
 
 #include "cutils.h"
 #include "leds.h"
@@ -10,6 +11,7 @@
 #include "wifi_ruts.h"
 #include "mqtt.h"
 #include "hw.h"
+#include "machine.h"  // Include the machine header file
 
 #include <iostream>
 
@@ -45,7 +47,8 @@ led_test(void)
 #endif
 
 static const char *lista[] = {"Oreo", "Chocolinas", "Traviatta", "Rumba", "Mellizas", "Amor", "Tentacion", "Criollitas"};
-static const std::string machine_no = "1";
+// Create a mutable Machine object
+Machine vendingMachine(true, false, 0.0, {}, 1);  // Initialize with default values; adjust as needed
 
 void
 setup(void)
@@ -65,7 +68,7 @@ setup(void)
     // cuando hace el setup la maquina hago un publish a machine/conected/ message:”machineId:1”
     std::string topic = "machine/connected/";
     const char *topic_cstr = topic.c_str();
-    const char *message_cstr = machine_no.c_str();
+    const char *message_cstr = std::to_string(vendingMachine.customId).c_str();
     do_publish(topic_cstr,message_cstr);
 
 
@@ -115,7 +118,7 @@ loop(void)
             Serial.printf("Refilling stock\n");
             
             // tengo que hacer algo cuando hago un refill de productos??
-            std::string topic = "stock/machineId:" + machine_no+",ProductId: "+ std::string(lista[product_no - 1]);
+            std::string topic = "stock/machineId:" + std::to_string(vendingMachine.customId) +",ProductId: "+ std::string(lista[product_no - 1]);
             int stock =8;
             const char *topic_cstr = topic.c_str();
             std::string str_stock = std::to_string(stock);
@@ -155,11 +158,24 @@ loop(void)
             Serial.printf("Stock remaining after delivering = %d\n", change_stock(product_no,-1) );
             Serial.printf( "Product number %d delivered\n",  product_no );
             std::string topic = "soldProducts/";
-            std::string message = "machineId:" + machine_no +",ProductId: "+ std::to_string((product_no));
-            int stock =stock_state(product_no);
+
+            // Create a JSON object
+            DynamicJsonDocument doc(256); // Adjust the size based on your needs
+
+            // Add data to the JSON object
+            doc["machineId"] = std::to_string(vendingMachine.customId);
+            doc["productId"] = product_no;
+
+            // Serialize the JSON object to a string
+            std::string message;
+            serializeJson(doc, message);
+
+            // Convert the topic and message to const char*
             const char *topic_cstr = topic.c_str();
             const char *message_cstr = message.c_str();
-            do_publish(topic_cstr,message_cstr);
+
+            // Publish the message
+            do_publish(topic_cstr, message_cstr);
         }
         else
             Serial.printf("No product %d remain in stock\n",  product_no);
