@@ -45,6 +45,7 @@ public:
     void productDelete(const std::string& msg);
 
     void adjustPrice(const std::string& msg);
+    
     std::vector<std::string> getProductNames() const;
 };
 

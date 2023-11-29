@@ -63,15 +63,15 @@ static const topic_t topics[] =
 static const char *subs[] =
 {
 #if (SUB_LIST==0)
-    ("machine/eliminate/" + std::to_string(vendingMachine.customId)).c_str(),
-    ("machine/ready/" + std::to_string(vendingMachine.customId)).c_str(),
-    ("machine/working/" + std::to_string(vendingMachine.customId)).c_str(),
-    ("machine/working/" + std::to_string(vendingMachine.customId)).c_str(),
-    ("machine/delete/" + std::to_string(vendingMachine.customId)).c_str(),
-    ("machine/refill/" + std::to_string(vendingMachine.customId)).c_str(),
     "machine/eliminate/1",
     "machine/ready/1",
-    ("machine/Connected/" + std::to_string(vendingMachine.customId)).c_str(),
+    "machine/working/1",
+    "machine/working/1",
+    "machine/delete/1",
+    "machine/refill/1",
+    "machine/eliminate/1",
+    "machine/ready/1",
+    "machine/Connected/1",
 
 #elif (SUB_LIST==1)
     "+/ti",

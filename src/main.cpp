@@ -11,6 +11,7 @@
 #include "machine.h"  // Include the machine header file
 
 #include <iostream>
+#include <ArduinoJson.h>
 
 #define FILL    99
 
@@ -51,7 +52,6 @@ void
 setup(void)
 {
     Serial.begin(BAUD);
-
     init_leds();
     init_matrix();
     //init_stock();
@@ -63,10 +63,24 @@ setup(void)
     printf("Board = %d\n", board);
     init_mqtt(board);
     // cuando hace el setup la maquina hago un publish a machine/conected/ message:”machineId:1”
-    std::string topic = "machine/Connected";
-    const char *topic_cstr = topic.c_str();
-    const char *message_cstr = std::to_string(vendingMachine.customId).c_str();
-    do_publish(topic_cstr,message_cstr);
+// Assuming vendingMachine is an instance of the Machine class
+    std::string topic = "machine/connected";
+    const char* topic_cstr = topic.c_str();
+
+    // Create a JSON object
+    DynamicJsonDocument doc(256); // Adjust the size based on your needs
+
+    // Add data to the JSON object
+    doc["machineId"] = vendingMachine.customId;
+
+    // Serialize the JSON object to a string
+    std::string message;
+    serializeJson(doc, message);
+
+    // Convert the message to const char
+    const char *message_cstr = message.c_str();
+
+    do_publish(topic_cstr, message_cstr);
 
 
 #if LED_TEST == 1
@@ -162,7 +176,7 @@ loop(void)
           //que dice soldProducts/ message:” machieneId:1, productId:1
             //Serial.printf("Stock remaining after delivering = %d\n", change_stock(product_no,-1) );
             Serial.printf( "Product number %d delivered\n",  product_no );
-            std::string topic = "soldProducts/";
+            std::string topic = "soldProducts";
 
             // Create a JSON object
             DynamicJsonDocument doc(256); // Adjust the size based on your needs

@@ -66,6 +66,7 @@ void set_int(char *msg)
 
 void updateMachine(char *msg)
 {
+    Serial.println("updateMachine");
     vendingMachine.initializeFromJSON(msg);
 }
 

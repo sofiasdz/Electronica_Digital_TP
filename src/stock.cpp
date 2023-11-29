@@ -24,8 +24,16 @@ void fill_stock(Machine& machine)
 //     }
 // }
 int
-stock_state(int pr_no)
+stock_state(int pr_no, Machine& machine)
 {
-    //return stock[pr_no-1];
+    
+    for(auto& product_quantity : machine.products)
+    {
+        if(product_quantity.product.customId == pr_no)
+        {
+            return product_quantity.quantity;
+        }
+    }
+    return -1;
 }
 
