@@ -13,7 +13,7 @@
 #include <Arduino.h>
 #include <PubSubClient.h>
 #include <WiFi.h>
-/*#include <WiFiClientSecure.h>*/
+#include <WiFiClientSecure.h>
 #include "secrets.h"
 /*
  *  Project includes
@@ -27,8 +27,8 @@
  *  Objects instantiations
  */
 
-WiFiClient espClient;
-//WiFiClientSecure espClient;
+//WiFiClient espClient;
+WiFiClientSecure espClient;
 PubSubClient client(espClient);
 
 /*
@@ -137,7 +137,7 @@ client_connect(void)
     Serial.printf("server = %s\n",mqttServer);
 
     //Configura el certificado de la CA
-    //espClient.setCACert(CERT_CA);
+    espClient.setCACert(CERT_CA);
 
     client.setServer(mqttServer, mqttPort);
     client.setCallback(callback);
@@ -179,6 +179,7 @@ subscribe_to( const char *ptopic )
 static void
 init_subscriptions(void)
 {
+    Serial.printf("Starting to subscribe");
     const char **p;
     char subs_string[100];
 

@@ -9,7 +9,6 @@
 #include "mqtt.h"
 #include "hw.h"
 #include "machine.h"  // Include the machine header file
-
 #include <iostream>
 #include <ArduinoJson.h>
 
@@ -119,7 +118,7 @@ loop(void)
         Serial.printf("=========================\n");
         std::cout << "Cookies Available:" << std::endl;
         for (size_t i = 0; i < productNames.size(); ++i) {
-            std::cout << i + 1 << ". " << lista[i] << std::endl;
+            std::cout << i + 1 << ". " << productNames[i] << std::endl;
         }
 
         Serial.printf("Input product number to select (%d to %d)....", MIN_PRODUCT, MAX_PRODUCT);

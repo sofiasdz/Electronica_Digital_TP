@@ -108,17 +108,17 @@ static const char *subs[] =
 
 #if (MQTT==0)                                       
     #define BROKER_NAME "192.168.0.141"         //  Mosquitto in local network
-    #define BROKER_PORT 1883
+    #define BROKER_PORT 8883
     #define BROKER_USER ""
     #define BROKER_PASS ""
 #elif (MQTT==1)
     #define BROKER_NAME "34.200.138.102"          //  Mosquitto outside local network
-    #define BROKER_PORT 1883
+    #define BROKER_PORT 8883
     #define BROKER_USER ""
     #define BROKER_PASS ""
 #elif (MQTT==2)
     #define BROKER_NAME "broker.mqtt-dashboard.com"    //  Remote broker by name
-    #define BROKER_PORT 1883
+    #define BROKER_PORT 8883
     #define BROKER_USER ""
     #define BROKER_PASS ""
 #else
