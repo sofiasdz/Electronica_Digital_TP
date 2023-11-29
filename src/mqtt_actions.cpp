@@ -66,8 +66,30 @@ void set_int(char *msg)
 
 void updateMachine(char *msg)
 {
-
+    vendingMachine.initializeFromJSON(msg);
 }
 
+void workingInMachine(char *msg)
+{
+    vendingMachine.workingInMachine();
+}
 
+void readyMachine(char *msg)
+{
+    vendingMachine.readyMachine();
+}
 
+void deleteMachine(char *msg)
+{
+    vendingMachine.deleteMachine();
+}
+
+void productDelete(char *msg)
+{
+    vendingMachine.productDelete(msg);
+}
+
+void adjustPrice(char *msg)
+{
+    vendingMachine.adjustPrice(msg);
+}

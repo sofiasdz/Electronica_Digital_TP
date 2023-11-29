@@ -36,6 +36,15 @@ public:
 
     void update(const Machine& otherMachine);
 
+    void workingInMachine();
+
+    void readyMachine();
+
+    void deleteMachine();
+
+    void productDelete(const std::string& msg);
+
+    void adjustPrice(const std::string& msg);
 };
 
 #endif  // MACHINE_H
