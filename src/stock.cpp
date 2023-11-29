@@ -12,14 +12,20 @@ void fill_stock(Machine& machine)
     }
 }
 
-int stock_state(const std::string& product_name)
+// int stock_state(const std::string& product_name)
+// {
+//     if(stock.find(product_name) != stock.end())
+//     {
+//         return stock[product_name];
+//     }
+//     else
+//     {
+//         return -1;
+//     }
+// }
+int
+stock_state(int pr_no)
 {
-    if(stock.find(product_name) != stock.end())
-    {
-        return stock[product_name];
-    }
-    else
-    {
-        return -1;
-    }
+    //return stock[pr_no-1];
 }
+

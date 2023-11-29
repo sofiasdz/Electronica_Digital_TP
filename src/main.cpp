@@ -1,5 +1,3 @@
-
-
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include "cutils.h"
@@ -93,6 +91,8 @@ loop(void)
         Serial.printf("=========================\n");
         refresh_vdisplay();
          // Lista de productos
+         //Traerlas desde la machine
+         //getProductNames(vendingMachine); creado en machine.cpp
         const char *lista[] = {"Oreo", "Chocolinas", "Traviatta", "Rumba", "Mellizas", "Amor", "Tentacion", "Criollitas"};
 
          // Tamaño de la lista
@@ -129,7 +129,7 @@ loop(void)
             Serial.printf("\nBad product number %d Redo...\n", product_no );
     } while(status);
 
-    if( product_no == FILL )
+    if( product_no == FILL ) //Esto lo deberia triggerear mister mantenimiento
     {
         //fill_stock();
         Serial.printf("stock updated\n");

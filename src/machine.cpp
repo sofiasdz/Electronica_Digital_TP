@@ -33,6 +33,15 @@ void Machine::initializeFromJSON(const std::string& jsonString)
         products.push_back(pq);
     }
 }
+std::vector<std::string> Machine::getProductNames() const
+{
+    std::vector<std::string> productNames;
+    for (const ProductQuantity& pq : products)
+    {
+        productNames.push_back(pq.product.name);
+    }
+    return productNames;
+}
 
 // Implement the update method
 void Machine::update(const Machine& otherMachine) {

@@ -33,6 +33,7 @@ public:
 
     void update(const Machine& otherMachine);
 
+    std::vector<std::string> getProductNames() const;
 };
 
 #endif  // MACHINE_H
