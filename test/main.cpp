@@ -79,7 +79,7 @@ init_mqtt(void)
         {
             Serial.print("MQTT connection: failed with state ");
             Serial.print(client.state());
-            delay(2000);
+            //delay(2000);
         }
     }
     Serial.printf( "Connected to %s\n\r", mqttServer );

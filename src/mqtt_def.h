@@ -19,7 +19,7 @@ extern Machine vendingMachine;
 typedef struct
 {
     const char *sub_topic;
-    void (*action)( char *message );
+    void (*action)(char *message );
 } topic_t;
 
 /*
@@ -41,14 +41,14 @@ static const topic_t topics[] =
     {   "button", set_int       },
     {   "prender",   set_int   },
     {   "apagar",   set_int  },
-    {   ("machine/refill/" + std::to_string(vendingMachine.customId)).c_str(), updateMachine },
+    {   "machine/refill/1", updateMachine },
     {   "product/adjustPrice" , adjustPrice},
     {   "product/delete" , productDelete},
-    {   ("machine/delete/" + std::to_string(vendingMachine.customId)).c_str(), deleteMachine},
-    {   ("machine/working/" + std::to_string(vendingMachine.customId)).c_str(), workingInMachine},
-    {   ("machine/ready/" + std::to_string(vendingMachine.customId)).c_str(), readyMachine},
-    {   ("machine/eliminate/" + std::to_string(vendingMachine.customId)).c_str(), productDelete},
-    {   ("machine/Connected/" + std::to_string(vendingMachine.customId)).c_str(), updateMachine},
+    {   "machine/delete/1", deleteMachine},
+    {   "machine/working/1", workingInMachine},
+    {   "machine/ready/1" , readyMachine},
+    {   "machine/eliminate/1", productDelete},
+    {   "machine/Connected/1", updateMachine   },
 
     {   NULL }
 };

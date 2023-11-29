@@ -59,26 +59,71 @@ static const char *mqttPassword =   BROKER_PASS;
  *      publish in broker a topic that we are subscribed
  */
 
-static void
-callback(char *topic, byte *payload, unsigned int length)
+// static void
+// callback(char *topic, byte *payload, unsigned int length)
+// {
+//     char *pl;
+
+//     payload[length] = 0;
+//     Serial.printf( "For topic: \"%s\", message \"%s\"\n", topic, payload );
+//     if( ( pl = strrchr(topic,'/') ) == NULL )
+//         return;
+//     Serial.printf("main topic = %s\n", ++pl );
+
+//     for( int i = 0; topics[i].sub_topic != NULL; ++i )
+//         if( strcmp( pl, topics[i].sub_topic ) == 0 )
+//         {
+//             (*topics[i].action)( (char *)payload );
+//             break;
+//         }
+//     Serial.println("-----------------------");
+// }
+static int
+get_origin(char *st, char *slast )
 {
-    char *pl;
+    char *sfirst;
 
-    payload[length] = 0;
-    Serial.printf( "For topic: \"%s\", message \"%s\"\n", topic, payload );
-    if( ( pl = strrchr(topic,'/') ) == NULL )
-        return;
-    Serial.printf("main topic = %s\n", ++pl );
-
-    for( int i = 0; topics[i].sub_topic != NULL; ++i )
-        if( strcmp( pl, topics[i].sub_topic ) == 0 )
-        {
-            (*topics[i].action)( (char *)payload );
-            break;
-        }
-    Serial.println("-----------------------");
+    *slast = '\0';
+    if( ( sfirst = strrchr(st,'/') ) == NULL )
+        return -1;
+    return atoi(++sfirst);
 }
 
+static void callback(char *topic, byte *payload, unsigned int length) {
+    char payloadStr[length + 1]; // Crear un buffer para el payload
+    memcpy(payloadStr, payload, length); // Copiar los datos del payload
+    payloadStr[length] = '\0'; // Asegurarse de que la cadena esté terminada en cero
+
+    Serial.printf("Received message on topic: \"%s\"\n", topic);
+    Serial.printf("Message: \"%s\"\n", payloadStr);
+
+    // Extraer el subtópico de la parte final del tópico
+    char *subTopic = strrchr(topic, '/');
+    if (subTopic == NULL) {
+        Serial.println("Subtopic not found in the topic.");
+        return;
+    }
+    subTopic++; // Moverse más allá del carácter '/'
+
+    Serial.printf("Subtopic: \"%s\"\n", subTopic);
+
+    // Buscar y ejecutar la acción correspondiente al subtópico
+    bool actionFound = false;
+    for (int i = 0; topics[i].sub_topic != NULL; ++i) {
+        if (strcmp(subTopic, topics[i].sub_topic) == 0) {
+            Serial.printf("Executing action for subtopic: \"%s\"\n", subTopic);
+            (*topics[i].action)(payloadStr);
+            actionFound = true;
+            break;
+        }
+    }
+
+    if (!actionFound) {
+        Serial.printf("No action found for subtopic: \"%s\"\n", subTopic);
+    }
+
+    Serial.println("-----------------------");
+}
 /*
  *  client_connect:
  *      Connection to broker
@@ -103,7 +148,7 @@ client_connect(void)
         else
         {
             Serial.printf("%s: failed with state = %d\n", __FUNCTION__, client.state());
-            delay(2000);
+            //delay(2000);
         }
     }
     Serial.printf("Connected to %s\n", mqttServer);
