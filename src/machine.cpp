@@ -1,38 +1,44 @@
-#include <iostream>
-#include <vector>
 #include "machine.h"
+#include <ArduinoJson.h>
+// ...
 
-class Product {
-public:
-    std::string name;
-    double price;
-    int customId;
-};
+Machine::Machine(bool works, bool beingRepaired, double income, const std::vector<ProductQuantity>& products, int customId)
+    : works(works), beingRepaired(beingRepaired), income(income), products(products), customId(customId) {}
 
-class ProductQuantity {
-public:
-    Product product;
-    int quantity;
-};
+void Machine::initializeFromJSON(const std::string& jsonString)
+{
+    StaticJsonDocument<512> doc; // Adjust the size based on your needs
 
-class Machine {
-public:
-    bool works;
-    bool beingRepaired;
-    double income;
-    std::vector<ProductQuantity> products;
-    int customId;
-
-    // Constructor that initializes all fields
-    Machine(bool works, bool beingRepaired, double income, const std::vector<ProductQuantity>& products, int customId)
-        : works(works), beingRepaired(beingRepaired), income(income), products(products), customId(customId) {}
-
-    // Method to update machine with values from another machine
-    void update(const Machine& otherMachine) {
-        works = otherMachine.works;
-        beingRepaired = otherMachine.beingRepaired;
-        income = otherMachine.income;
-        products = otherMachine.products;  // This assumes a simple overwrite; adjust as needed
-        // customId is not updated to prevent accidental uniqueness violation
+    DeserializationError error = deserializeJson(doc, jsonString);
+    if (error)
+    {
+        Serial.println(F("Failed to read file, using default configuration"));
+        return;
     }
-};
+
+    works = doc["works"];
+    beingRepaired = doc["beingRepaired"];
+    income = doc["income"];
+    customId = doc["customId"];
+
+    products.clear();
+    JsonArray productsArray = doc["products"];
+    for (JsonObject productObject : productsArray)
+    {
+        ProductQuantity pq;
+        pq.product.name = std::string(productObject["product"]["name"].as<const char*>());
+        pq.product.price = productObject["product"]["price"];
+        pq.product.customId = productObject["product"]["customId"];
+        pq.quantity = productObject["quantity"];
+        products.push_back(pq);
+    }
+}
+
+// Implement the update method
+void Machine::update(const Machine& otherMachine) {
+    works = otherMachine.works;
+    beingRepaired = otherMachine.beingRepaired;
+    income = otherMachine.income;
+    products = otherMachine.products;  // This assumes a simple overwrite; adjust as needed
+    // customId is not updated to prevent accidental uniqueness violation
+}

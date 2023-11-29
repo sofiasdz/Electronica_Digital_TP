@@ -2,7 +2,6 @@
 
 #include <Arduino.h>
 #include <ArduinoJson.h>
-
 #include "cutils.h"
 #include "leds.h"
 #include "matrix.h"
@@ -57,7 +56,7 @@ setup(void)
 
     init_leds();
     init_matrix();
-    init_stock();
+    //init_stock();
     init_vdisplay();
     int board;
     connect_wifi();
@@ -132,7 +131,7 @@ loop(void)
 
     if( product_no == FILL )
     {
-        fill_stock();
+        //fill_stock();
         Serial.printf("stock updated\n");
          refresh_vdisplay();
          //relleno todos los productos
@@ -151,11 +150,17 @@ loop(void)
     } else
     {
         printf("\n\tSelected cookie = %s\n", lista[product_no-1]);
-        if( stock_state(product_no) > 0 )
+    }
+
+
+    
+        printf("\n\tSelected cookie = %s\n", lista[product_no-1]);
+        //if( stock_state(product_no) > 0 )
+        if(true)
         {
             //cuando compra alguien algo hago un publish 
-            //que dice soldProducts/ message:” machieneId:1, productId:1
-            Serial.printf("Stock remaining after delivering = %d\n", change_stock(product_no,-1) );
+          //que dice soldProducts/ message:” machieneId:1, productId:1
+            //Serial.printf("Stock remaining after delivering = %d\n", change_stock(product_no,-1) );
             Serial.printf( "Product number %d delivered\n",  product_no );
             std::string topic = "soldProducts/";
 
@@ -178,11 +183,12 @@ loop(void)
             do_publish(topic_cstr, message_cstr);
         }
         else
-            Serial.printf("No product %d remain in stock\n",  product_no);
+           Serial.printf("No product %d remain in stock\n",  product_no);
 
           
         refresh_vdisplay();
-    }
 }
+
+
 
 
